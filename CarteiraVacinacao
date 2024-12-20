@@ -1,0 +1,58 @@
+// Projeto: Carteira de Vacinação de Animais
+// Linguagem: Java (POO) com GUI simples
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe principal com GUI
+public class CarteiraVacinacao {
+
+    private List<Animal> animais;
+
+    public CarteiraVacinacao() {
+        this.animais = new ArrayList<>();
+        initGUI();
+    }
+
+    private void initGUI() {
+        JFrame frame = new JFrame("ID Pet");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        // Painel principal
+        JPanel panel = new JPanel(new BorderLayout());
+
+        // Lista de animais
+        DefaultListModel<Animal> listModel = new DefaultListModel<>();
+        JList<Animal> animalList = new JList<>(listModel);
+        JScrollPane scrollPane = new JScrollPane(animalList);
+
+        // Botão para adicionar novo animal
+        JButton addButton = new JButton("Adicionar Animal");
+        addButton.addActionListener(e -> {
+            String nome = JOptionPane.showInputDialog(frame, "Nome do Animal:");
+            String especie = JOptionPane.showInputDialog(frame, "Espécie do Animal:");
+            String raca = JOptionPane.showInputDialog(frame, "Raça do Animal:");
+
+            if (nome != null && especie != null && raca != null) {
+                Animal animal = new Animal(nome, especie, raca);
+                animais.add(animal);
+                listModel.addElement(animal);
+            }
+        });
+
+        // Adicionando componentes ao painel
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(addButton, BorderLayout.SOUTH);
+
+        // Configurando o frame
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new CarteiraVacinacao();
+    }
+}
